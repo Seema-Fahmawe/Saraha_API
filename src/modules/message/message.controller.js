@@ -1,5 +1,6 @@
 import messageModel from "../../../DB/models/Message.model.js";
 import userModel from "../../../DB/models/User.model.js";
+import { AppError } from "../../utils/AppError.js";
 import { asyncHandler } from "../../utils/errorHandling.js";
 
 export const getMessages = asyncHandler(async (req, res, next) => {
@@ -16,10 +17,10 @@ export const sendMessage = asyncHandler(async (req, res, next) => {
   const { receiverId } = req.params;
   const user = await userModel.findOne({ where: { id: receiverId } });
   if (user === null) {
-    return next(new Error("Invalid receiver"));
+    return next(new AppError("Invalid receiver", 400));
   }
   const message = await messageModel.create({ content, UserId: receiverId });
-  return res.json({ message: "success", message });
+  return res.status(200).json({ message: "success", message });
 });
 
 export const deleteMessage = asyncHandler(async (req, res, next) => {
@@ -34,7 +35,10 @@ export const deleteMessage = asyncHandler(async (req, res, next) => {
 
   if (message === 0) {
     return next(
-      new Error("Message not found or you don't have permission to delete it")
+      new AppError(
+        "Message not found or you don't have permission to delete it",
+        400
+      )
     );
   }
   return res.status(200).json({ message: "success" });

@@ -2,15 +2,7 @@ import multer from "multer";
 import { nanoid } from "nanoid";
 
 function fileUpload() {
-  const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, "uploads");
-    },
-    filename: (req, file, cb) => {
-      const uniqueSuffix = nanoid() + Date.now();
-      cb(null, uniqueSuffix + "_" + file.originalname);
-    },
-  });
+  const storage = multer.diskStorage({});
 
   function fileFilter(req, file, cb) {
     if (file.mimitype == "image/jpg" || file.mimitype == "image/png") {

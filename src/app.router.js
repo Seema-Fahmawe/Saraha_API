@@ -10,7 +10,7 @@ export const initApp = (app, express) => {
   app.use("/auth", authRouter);
   app.use("/message", messageRouter);
   app.use((err, req, res, next) => {
-    return res.status(400).json({ message: err.message });
+    return res.status(err.statusCode).json({ message: err.message });
   });
   connectDB();
 };

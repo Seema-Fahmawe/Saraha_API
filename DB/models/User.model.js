@@ -27,7 +27,7 @@ const userModel = sequelize.define(
       defaultValue: false,
     },
     profilePic: {
-      type: DataTypes.STRING,
+      type:DataTypes.STRING,
       defaultValue: null,
     },
   },
